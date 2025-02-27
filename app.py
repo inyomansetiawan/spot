@@ -11,19 +11,27 @@ import io
 import os
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
-from pydrive2.auth import ServiceAccountCredentials
+from oauth2client.service_account import ServiceAccountCredentials
 import json
 
 # ID folder Google Drive tujuan (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
 
 def authenticate_drive():
-    scope = ['https://www.googleapis.com/auth/drive']
     gauth = GoogleAuth()
-    gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
-    gauth.Authorize()  # Gunakan Authorize() agar tidak error
+    scope = ['https://www.googleapis.com/auth/drive']
+    
+    gauth.LoadCredentialsFile("credentials.json")  # Pastikan file ini ada
+    if gauth.credentials is None:
+        gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name(
+            "credentials.json", scope)
+    elif gauth.access_token_expired:
+        gauth.Refresh()
+    else:
+        gauth.Authorize()
+    
+    gauth.SaveCredentialsFile("credentials.json")
     return GoogleDrive(gauth)
-
 
 def export_pdf(data, filename):
     buffer = io.BytesIO()
