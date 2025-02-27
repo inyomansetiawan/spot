@@ -14,20 +14,14 @@ from pydrive2.drive import GoogleDrive
 from pydrive2.auth import ServiceAccountCredentials
 import json
 
-
-import os
-st.write("Files in current directory:", os.listdir("."))
-
 # ID folder Google Drive tujuan (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
 
-# Lokasi file kredensial (pastikan ini tersedia di server Streamlit)
-SERVICE_ACCOUNT_FILE = "service_account.json"
-
 def authenticate_drive():
-    gauth = GoogleAuth()
     scope = ['https://www.googleapis.com/auth/drive']
-    gauth.ServiceAuth(ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, scope))
+    gauth = GoogleAuth()
+    gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name("service_account.json", scope)
+    gauth.Authorize()  # Gunakan Authorize() agar tidak error
     return GoogleDrive(gauth)
 
 
