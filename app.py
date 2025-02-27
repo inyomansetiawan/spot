@@ -6,14 +6,17 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 import io
-import os
-import requests
+import json
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 
-# ID folder Google Drive tujuan (GANTI DENGAN ID FOLDER ANDA)
+# Konfigurasi Google Drive (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
-API_KEY = "AIzaSyBPVpnju6gMRPXk8qUZJJHPW9c6ua6DDvE"  # Ganti dengan API Key Anda
-UPLOAD_URL = f"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&key={API_KEY}"
 
+# Load kredensial dari Streamlit Secrets
+creds_dict = json.loads(st.secrets["gdrive_service_account"])
+creds = service_account.Credentials.from_service_account_info(creds_dict)
+drive_service = build("drive", "v3", credentials=creds)
 
 def export_pdf(data, filename):
     buffer = io.BytesIO()
@@ -49,23 +52,21 @@ def export_pdf(data, filename):
     buffer.seek(0)
     return buffer
 
-
 def upload_to_drive(file_buffer, filename):
-    headers = {"Authorization": f"Bearer {API_KEY}"}
-    metadata = {
+    file_metadata = {
         "name": filename,
-        "parents": [FOLDER_ID],
+        "parents": [FOLDER_ID]
     }
-    files = {
-        "metadata": (None, str(metadata), "application/json"),
-        "file": (filename, file_buffer, "application/pdf"),
-    }
-    response = requests.post(UPLOAD_URL, headers=headers, files=files)
-    if response.status_code == 200:
-        file_id = response.json().get("id")
-        return f"https://drive.google.com/file/d/{file_id}/view"
-    else:
-        return None
+    media = io.BytesIO(file_buffer.getvalue())
+    media.seek(0)
+
+    file = drive_service.files().create(
+        body=file_metadata,
+        media_body=media,
+        fields="id"
+    ).execute()
+
+    return f"https://drive.google.com/file/d/{file['id']}/view"
 
 # Streamlit UI
 st.title("SPOT - Summary of Progress & Objectives Tracker")
@@ -116,4 +117,4 @@ if st.button("Ekspor & Unggah ke Google Drive"):
             st.markdown(f"[Lihat File di Google Drive]({gdrive_link})")
             st.download_button("Download PDF", pdf_buffer, file_name=filename, mime="application/pdf")
         else:
-            st.error("Gagal mengunggah ke Google Drive. Periksa API Key Anda.")
+            st.error("Gagal mengunggah ke Google Drive.")
