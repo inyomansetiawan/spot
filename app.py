@@ -9,6 +9,7 @@ import io
 import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseUpload
 
 # Konfigurasi Google Drive (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
@@ -57,8 +58,8 @@ def upload_to_drive(file_buffer, filename):
         "name": filename,
         "parents": [FOLDER_ID]
     }
-    media = io.BytesIO(file_buffer.getvalue())
-    media.seek(0)
+    
+    media = MediaIoBaseUpload(io.BytesIO(file_buffer.getvalue()), mimetype="application/pdf")
 
     file = drive_service.files().create(
         body=file_metadata,
