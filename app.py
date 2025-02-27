@@ -69,8 +69,15 @@ def upload_to_drive(file_buffer, filename):
 
     return f"https://drive.google.com/file/d/{file['id']}/view"
 
-# Streamlit UI
-st.title("SPOT - Summary of Progress & Objectives Tracker")
+# Menggunakan Markdown dengan HTML untuk center alignment
+st.markdown(
+    """
+    <h1 style='text-align: center;'>SPOT</h1>
+    <h3 style='text-align: center;'>Summary of Progress & Objectives Tracker</h3>
+    <br>
+    """,
+    unsafe_allow_html=True
+)
 
 with st.form("data_form"):
     nama_tim = st.text_input("Nama Tim")
