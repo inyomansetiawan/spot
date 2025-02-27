@@ -12,6 +12,13 @@ import os
 from pydrive2.auth import GoogleAuth
 from pydrive2.drive import GoogleDrive
 
+# Pastikan server berjalan di mode headless saat di Streamlit Cloud
+if "STREAMLIT_SERVER_HEADLESS" not in os.environ:
+    os.environ["STREAMLIT_SERVER_HEADLESS"] = "true"
+
+st.title("Aplikasi Streamlit")
+st.write("Aplikasi ini berjalan di Streamlit Cloud!")
+
 # ID folder Google Drive tujuan (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
 
