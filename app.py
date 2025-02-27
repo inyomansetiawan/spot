@@ -2,11 +2,9 @@ import streamlit as st
 import pandas as pd
 import datetime
 from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.enums import TA_CENTER
-from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 import io
 import os
 from pydrive2.auth import GoogleAuth
@@ -35,41 +33,25 @@ def export_pdf(data, filename):
     elements = []
     
     styles = getSampleStyleSheet()
-
-    # Mengatur style untuk title dan subtitle
     title_style = styles["Title"]
     title_style.alignment = TA_CENTER
-
     subtitle_style = styles["Heading2"]
     subtitle_style.alignment = TA_CENTER
-
     answer_style = styles["Normal"]
     answer_style.alignment = TA_JUSTIFY
 
-    # Membuat Title dan Subtitle
-    title = Paragraph("SPOT", title_style)
-    subtitle = Paragraph("Summary of Progress & Objectives Tracker", subtitle_style)
+    elements.append(Paragraph("SPOT", title_style))
+    elements.append(Spacer(1, 2))
+    elements.append(Paragraph("Summary of Progress & Objectives Tracker", subtitle_style))
+    elements.append(Spacer(1, 16))
 
-    # Menambah elemen ke dalam dokumen
-    elements.append(title)
-    elements.append(Spacer(1, 2))  # Spacer untuk memberi jarak
-    elements.append(subtitle)
-    elements.append(Spacer(1, 16))  # Spacer tambahan sebelum konten berikutnya
-
-    # Looping data untuk menampilkan setiap pertanyaan sebagai heading
     for key, value in data.items():
-        # Heading (Pertanyaan)
-        question = Paragraph(f"<b>{key}</b>", styles["Heading2"])
-        elements.append(question)
+        elements.append(Paragraph(f"<b>{key}</b>", styles["Heading2"]))
         elements.append(Spacer(1, 6))
-
-        # Jawaban dalam paragraf
-        answer = Paragraph(str(value), answer_style)
-        elements.append(answer)
-        elements.append(Spacer(1, 12))  # Beri jarak antar pertanyaan
+        elements.append(Paragraph(str(value), answer_style))
+        elements.append(Spacer(1, 12))
 
     doc.build(elements)
-
     buffer.seek(0)
 
     with open(filename, "wb") as f:
@@ -78,12 +60,9 @@ def export_pdf(data, filename):
     return filename, buffer
 
 
-# Simpan data sementara di session state
 if "data" not in st.session_state:
     st.session_state.data = {}
 
-
-# Menggunakan Markdown dengan HTML untuk center alignment
 st.markdown(
     """
     <h1 style='text-align: center;'>SPOT</h1>
@@ -93,29 +72,17 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# Form Input
 with st.form("data_form"):
-    # Identitas Tim
     nama_tim = st.text_input("Nama Tim")
     ketua = st.text_input("Nama Ketua")
     coach = st.text_input("Nama Coach")
     jumlah_anggota = st.number_input("Jumlah Anggota", min_value=1)
-
-    # Objective/Goal Tahunan
     objective = st.text_area("Objective/Goal Tahunan")
-
-    # Progress Bulanan vs Target Triwulanan
-    st.subheader("Progress Bulanan vs Target Triwulanan")
     progress_bulanan = st.text_area("Progress Bulanan dengan Indikator Pencapaian")
     target_triwulanan = st.text_area("Target Triwulanan dengan Indikator Pencapaian")
-
-    # Hasil Retrospective
-    st.subheader("Hasil Retrospektif")
     what_went_well = st.text_area("What went Well?")
     what_can_be_improved = st.text_area("What can be Improved?")
     action_points = st.text_area("Action Points")
-
     submitted = st.form_submit_button("Simpan Data")
 
     if submitted:
@@ -133,38 +100,27 @@ with st.form("data_form"):
         }
         st.success("Data berhasil disimpan!")
 
-# Tampilkan Data
 if st.session_state.data:
     st.write("### Data Tersimpan")
     st.json(st.session_state.data)
 
-# Tombol ekspor ke PDF & Upload ke Google Drive
 if st.button("Ekspor & Upload ke Google Drive"):
     if not nama_tim:
         st.warning("Harap isi Nama Tim terlebih dahulu.")
     else:
-        # Format nama file: nama_tim_bulan.pdf
-        bulan = datetime.datetime.now().strftime("%B")  # Nama bulan dalam bahasa Inggris
+        bulan = datetime.datetime.now().strftime("%B")
         filename = f"{nama_tim}_{bulan}.pdf"
-
-        # Buat PDF
         pdf_path, pdf_buffer = export_pdf(st.session_state.data, filename)
 
-        # Upload ke Google Drive
         drive = authenticate_drive()
         file_drive = drive.CreateFile({"title": filename, "parents": [{"id": FOLDER_ID}]})
         file_drive.SetContentFile(pdf_path)
         file_drive.Upload()
 
-        # Dapatkan link file di Google Drive
         file_drive.InsertPermission({'type': 'anyone', 'value': 'anyone', 'role': 'reader'})
         gdrive_link = f"https://drive.google.com/file/d/{file_drive['id']}/view"
 
-        st.success(f"PDF berhasil diunggah ke Google Drive!")
-        st.markdown(f"[Lihat File di Google Drive]({gdrive_link})")
-
-        # Tombol download PDF
+        st.success("PDF berhasil diunggah ke Google Drive!")
+        st.markdown(f'<a href="{gdrive_link}" target="_blank">Lihat File di Google Drive</a>', unsafe_allow_html=True)
         st.download_button("Download PDF", pdf_buffer, file_name=filename, mime="application/pdf")
-
-        # Hapus file lokal setelah berhasil diunggah
         os.remove(pdf_path)
