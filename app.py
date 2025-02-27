@@ -79,19 +79,30 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Form Input
 with st.form("data_form"):
+    # Identitas Tim
     nama_tim = st.text_input("Nama Tim")
     ketua = st.text_input("Nama Ketua")
     coach = st.text_input("Nama Coach")
     jumlah_anggota = st.number_input("Jumlah Anggota", min_value=1)
+
+    # Objective/Goal Tahunan
     objective = st.text_area("Objective/Goal Tahunan")
-    progress_bulanan = st.text_area("Progress Bulanan")
-    target_triwulanan = st.text_area("Target Triwulanan")
+
+    # Progress Bulanan vs Target Triwulanan
+    st.subheader("Progress Bulanan vs Target Triwulanan")
+    progress_bulanan = st.text_area("Progress Bulanan dengan Indikator Pencapaian")
+    target_triwulanan = st.text_area("Target Triwulanan dengan Indikator Pencapaian")
+
+    # Hasil Retrospective
+    st.subheader("Hasil Retrospektif")
     what_went_well = st.text_area("What went Well?")
     what_can_be_improved = st.text_area("What can be Improved?")
     action_points = st.text_area("Action Points")
+
     submitted = st.form_submit_button("Simpan Data")
-    
+
     if submitted:
         st.session_state.data = {
             "Nama Tim": nama_tim,
