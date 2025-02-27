@@ -14,6 +14,10 @@ from pydrive2.drive import GoogleDrive
 from pydrive2.auth import ServiceAccountCredentials
 import json
 
+
+import os
+st.write("Files in current directory:", os.listdir("."))
+
 # ID folder Google Drive tujuan (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
 
