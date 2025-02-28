@@ -48,7 +48,7 @@ def export_pdf(data, filename):
 
         # Pisahkan teks berdasarkan newline
         if isinstance(value, str) and "\n" in value:
-            bullet_items = [ListItem(Paragraph(line.strip())) for line in value.split("\n") if line.strip()]
+            bullet_items = [ListItem(line.strip()) for line in value.split("\n") if line.strip()]
             answer = ListFlowable(bullet_items, bulletType="bullet", leftIndent=20)  # Indentasi rapi
         else:
             answer = str(value)
