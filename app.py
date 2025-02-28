@@ -47,7 +47,7 @@ def export_pdf(data, filename):
 
         # Pisahkan teks berdasarkan newline
         if isinstance(value, str) and "\n" in value:
-            bullet_points = "".join([f"{line.strip()}<br/>" for line in value.split("\n") if line.strip()])
+            bullet_points = "".join([f"• {line.strip()}<br/>" for line in value.split("\n") if line.strip()])
             answer = bullet_points
         else:
             answer = str(value)
