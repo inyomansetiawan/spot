@@ -10,7 +10,6 @@ import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
-from dateutil.relativedelta import relativedelta
 
 # Konfigurasi Google Drive (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1tg2zQrc2-9aR75a_dmgixnGH7j7Duzpp"
@@ -128,8 +127,7 @@ if st.button("Ekspor & Unggah ke Google Drive"):
         st.warning("Harap isi Nama Tim terlebih dahulu.")
     else:
         bulan_sekarang = datetime.datetime.now()
-        bulan_sebelumnya = bulan_sekarang - relativedelta(months=1)
-        bulan = bulan_sebelumnya.strftime("%B")
+        bulan = bulan_sekarang.strftime("%B")
         filename = f"{nama_tim}_{bulan}.pdf"
         pdf_buffer = export_pdf(st.session_state.data, filename)
         gdrive_link = upload_to_drive(pdf_buffer, filename)
