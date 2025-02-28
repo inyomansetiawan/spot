@@ -90,11 +90,64 @@ st.markdown(
 # Form Input
 with st.form("data_form"):
     # Identitas Tim
-    nama_tim = st.text_input("Nama Tim")
-    ketua = st.text_input("Nama Ketua")
-    coach = st.text_input("Nama Coach")
+    nama_tim = st.selectbox("Nama Tim", ["[IPMPlus] Tim IPM-IPG-IDG-IKG", 
+                                         "[KMD] Tim Kemiskinan Multidimensi", 
+                                         "[ASUS] Tim Analisis Sensus", 
+                                         "[CERDAS] Tim Analisis Isu Terkini dan Cerita Data Statistik",
+                                         "[SD] Tim Pengembangan Sistem Dinamik",
+                                         "[SAE] Tim Small Area Estimation",
+                                         "[DS] Tim Data Science",
+                                         "[DEV-QA] Tim Pengembangan Penjaminan Kualitas",
+                                         "[QG] Tim Quality Gates",
+                                         "[SIQAF] Tim Self Assessment dan Pengembangan QAF System",
+                                         "[PSS] Tim Pembinaan Statistik Sektoral",
+                                         "[REPO] Tim Repository",
+                                         "[FMS] Tim Sekretariat Forum Masyarakat Statistik",
+                                         "[PVD] Tim Pedoman Validasi Data",
+                                         "[SAKIP] Tim SAKIP",
+                                         "[GEN-AI] Tim Generative AI",
+                                         "[CAN] Tim Pengelola Manajemen Perubahan",
+                                         "[MADYA] Tim Penugasan Khusus Tambahan"])
+    ketua = st.selectbox("Nama Ketua", ["Erna Yulianingsih SST, M.Appl.Ecmets", 
+                                        "Alvina Clarissa SST", 
+                                        "Adi Nugroho, SST",
+                                        "Khairunnisah SST, M.S.E", 
+                                        "Valent Gigih Saputri SST, M.Ec.Dev.", 
+                                        "Nurarifin SST, M.Ec.Dev, M.Ec.", 
+                                        "Dhiar Niken Larasati SST, M.E.", 
+                                        "Dewi Krismawati SST, M.T.I", 
+                                        "Sukmasari Dewanti SST, M.Sc", 
+                                        "Reni Amelia, S.S.T., M.Si.", 
+                                        "Yohanes Eki Apriliawan SST", 
+                                        "Zulfa Hidayah Satria Putri SST, M.Stat.", 
+                                        "Mohammad Ammar Alwandi S.Tr.Stat.", 
+                                        "Synthia Natalia Kristiani SST", 
+                                        "Muhammad Ihsan SST",  
+                                        "Putri Wahyu Handayani SST, M.S.E", 
+                                        "Dewi Lestari Amaliah SST, M.B.A."])
+    coach = st.selectbox("Nama Coach", ["Dr. Ambar Dwi Santoso S.Si, M.Si", 
+                                        "Indah Budiati SST, M.Si", 
+                                        "Wisnu Winardi, SST, ME.", 
+                                        "Edi Waryono S.Si., M.Kesos.", 
+                                        "Mutijo S.Si, M.Si", 
+                                        "Usman Bustaman S.Si, M.Sc", 
+                                        "Dr. Arham Rivai S.Si, M.Si", 
+                                        "Lestyowati Endang Widyantari, S.Si, M.Kesos", 
+                                        "Taulina Anggarani S.Si, MA", 
+                                        "Dr. Muchammad Romzi"])
     jumlah_anggota = st.number_input("Jumlah Anggota", min_value=1)
-    bulan = st.text_input("Periode Pelaporan (Bulan)")
+    bulan = st.selectbox("Periode Pelaporan (Bulan)", ["Januari", 
+                                                       "Februari", 
+                                                       "Maret", 
+                                                       "April", 
+                                                       "Mei", 
+                                                       "Juni", 
+                                                       "Juli", 
+                                                       "Agustus", 
+                                                       "September", 
+                                                       "Oktober", 
+                                                       "November", 
+                                                       "Desember"])
 
     # Objective/Goal Tahunan
     objective = st.text_area("Objective/Goal Tahunan")
