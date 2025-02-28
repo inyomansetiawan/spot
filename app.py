@@ -10,6 +10,7 @@ import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
+from reportlab.platypus import ListFlowable, ListItem
 
 # Konfigurasi Google Drive (GANTI DENGAN ID FOLDER ANDA)
 FOLDER_ID = "1tg2zQrc2-9aR75a_dmgixnGH7j7Duzpp"
@@ -47,8 +48,8 @@ def export_pdf(data, filename):
 
         # Pisahkan teks berdasarkan newline
         if isinstance(value, str) and "\n" in value:
-            bullet_points = "".join([f"• {line.strip()}<br/>" for line in value.split("\n") if line.strip()])
-            answer = bullet_points
+            bullet_items = [ListItem(line.strip()) for line in value.split("\n") if line.strip()]
+            answer = ListFlowable(bullet_items, bulletType="bullet", leftIndent=20)
         else:
             answer = str(value)
 
