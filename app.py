@@ -90,7 +90,8 @@ st.markdown(
 # Form Input
 with st.form("data_form"):
     # Identitas Tim
-    nama_tim = st.selectbox("Nama Tim", ["[IPMPlus] Tim IPM-IPG-IDG-IKG", 
+    nama_tim = st.selectbox("Nama Tim", ["", 
+                                         "[IPMPlus] Tim IPM-IPG-IDG-IKG",
                                          "[KMD] Tim Kemiskinan Multidimensi", 
                                          "[ASUS] Tim Analisis Sensus", 
                                          "[CERDAS] Tim Analisis Isu Terkini dan Cerita Data Statistik",
@@ -108,7 +109,8 @@ with st.form("data_form"):
                                          "[GEN-AI] Tim Generative AI",
                                          "[CAN] Tim Pengelola Manajemen Perubahan",
                                          "[MADYA] Tim Penugasan Khusus Tambahan"])
-    ketua = st.selectbox("Nama Ketua", ["Erna Yulianingsih SST, M.Appl.Ecmets", 
+    ketua = st.selectbox("Nama Ketua", ["", 
+                                        "Erna Yulianingsih SST, M.Appl.Ecmets", 
                                         "Alvina Clarissa SST", 
                                         "Adi Nugroho, SST",
                                         "Khairunnisah SST, M.S.E", 
@@ -136,7 +138,8 @@ with st.form("data_form"):
                                         "Taulina Anggarani S.Si, MA", 
                                         "Dr. Muchammad Romzi"])
     jumlah_anggota = st.number_input("Jumlah Anggota", min_value=1)
-    bulan = st.selectbox("Periode Pelaporan (Bulan)", ["Januari", 
+    bulan = st.selectbox("Periode Pelaporan (Bulan)", ["", 
+                                                       "Januari", 
                                                        "Februari", 
                                                        "Maret", 
                                                        "April", 
