@@ -53,7 +53,7 @@ def export_pdf(data, filename):
             answer = str(value)
 
         answer_style = answer_style1 if idx <= 4 else answer_style2
-        answer = Paragraph(str(value), answer_style)
+        answer = Paragraph(answer, answer_style)
         elements.append(answer)
         elements.append(Spacer(1, 12))
 
