@@ -48,10 +48,12 @@ def export_pdf(data, filename):
         # Pisahkan teks berdasarkan newline
         if isinstance(value, str) and "\n" in value:
             bullet_points = "".join([f"• {line.strip()}<br/>" for line in value.split("\n") if line.strip()])
-            answer = Paragraph(bullet_points, answer_style2)
+            answer = bullet_points
         else:
-            answer = Paragraph(str(value), answer_style2)
+            answer = str(value)
 
+        answer_style = answer_style1 if idx <= 4 else answer_style2
+        answer = Paragraph(str(value), answer_style)
         elements.append(answer)
         elements.append(Spacer(1, 12))
 
