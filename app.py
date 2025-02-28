@@ -33,7 +33,7 @@ def export_pdf(data, filename):
     answer_style1 = ParagraphStyle("answer_style1", parent=styles["Normal"], alignment=TA_CENTER)
     answer_style2 = ParagraphStyle("answer_style2", parent=styles["Normal"], alignment=TA_JUSTIFY)
 
-    title = Paragraph("SPOT", title_style)
+    title = Paragraph("SPOT Light", title_style)
     subtitle = Paragraph("Summary of Progress & Objectives Tracker", subtitle_style)
     elements.append(title)
     elements.append(Spacer(1, 2))
@@ -72,7 +72,7 @@ def upload_to_drive(file_buffer, filename):
 # Menggunakan Markdown dengan HTML untuk center alignment
 st.markdown(
     """
-    <h1 style='text-align: center;'>SPOT</h1>
+    <h1 style='text-align: center;'>SPOT Light</h1>
     <h3 style='text-align: center;'>Summary of Progress & Objectives Tracker</h3>
     <br>
     """,
@@ -86,6 +86,7 @@ with st.form("data_form"):
     ketua = st.text_input("Nama Ketua")
     coach = st.text_input("Nama Coach")
     jumlah_anggota = st.number_input("Jumlah Anggota", min_value=1)
+    bulan = st.text_input("Periode Pelaporan (Bulan)")
 
     # Objective/Goal Tahunan
     objective = st.text_area("Objective/Goal Tahunan")
@@ -109,6 +110,7 @@ with st.form("data_form"):
             "Ketua": ketua,
             "Coach": coach,
             "Jumlah Anggota": jumlah_anggota,
+            "Periode Pelaporan": bulan,
             "Objective/Goal Tahunan": objective,
             "Progress Bulanan": progress_bulanan,
             "Target Triwulanan": target_triwulanan,
@@ -126,8 +128,6 @@ if st.button("Ekspor & Unggah ke Google Drive"):
     if not nama_tim:
         st.warning("Harap isi Nama Tim terlebih dahulu.")
     else:
-        bulan_sekarang = datetime.datetime.now()
-        bulan = bulan_sekarang.strftime("%B")
         filename = f"{nama_tim}_{bulan}.pdf"
         pdf_buffer = export_pdf(st.session_state.data, filename)
         gdrive_link = upload_to_drive(pdf_buffer, filename)
