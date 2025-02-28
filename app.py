@@ -44,7 +44,7 @@ def export_pdf(data, filename):
         question = Paragraph(f"<b>{key}</b>", styles["Heading2"])
         elements.append(question)
         elements.append(Spacer(1, 6))
-        answer_style = answer_style1 if idx <= 3 else answer_style2
+        answer_style = answer_style1 if idx <= 4 else answer_style2
         answer = Paragraph(str(value), answer_style)
         elements.append(answer)
         elements.append(Spacer(1, 12))
