@@ -127,7 +127,8 @@ with st.form("data_form"):
                                         "Muhammad Ihsan SST",  
                                         "Putri Wahyu Handayani SST, M.S.E", 
                                         "Dewi Lestari Amaliah SST, M.B.A."])
-    coach = st.selectbox("Nama Coach", ["Dr. Ambar Dwi Santoso S.Si, M.Si", 
+    coach = st.selectbox("Nama Coach", ["", 
+                                        "Dr. Ambar Dwi Santoso S.Si, M.Si", 
                                         "Indah Budiati SST, M.Si", 
                                         "Wisnu Winardi, SST, ME.", 
                                         "Edi Waryono S.Si., M.Kesos.", 
