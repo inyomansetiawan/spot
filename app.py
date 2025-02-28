@@ -112,8 +112,8 @@ with st.form("data_form"):
             "Objective/Goal Tahunan": objective,
             "Progress Bulanan": progress_bulanan,
             "Target Triwulanan": target_triwulanan,
-            "What went well": what_went_well,
-            "What can be improved": what_can_be_improved,
+            "What went Well?": what_went_well,
+            "What can be Improved?": what_can_be_improved,
             "Action Points": action_points
         }
         st.success("Data berhasil disimpan!")
