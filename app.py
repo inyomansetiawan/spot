@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 
 # Konfigurasi Google Drive (GANTI DENGAN ID FOLDER ANDA)
-FOLDER_ID = "1oE3xhsmyW_zeMRyP9inST20fiob6rylt"
+FOLDER_ID = "1tg2zQrc2-9aR75a_dmgixnGH7j7Duzpp"
 
 # Load kredensial dari Streamlit Secrets
 creds_dict = json.loads(st.secrets["gdrive_service_account"])
