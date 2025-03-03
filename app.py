@@ -91,6 +91,7 @@ st.markdown(
 with st.form("data_form"):
     # Identitas Tim
     nama_tim = st.selectbox("Nama Tim", ["", 
+                                         "[SDGS] Tim Indikator SDGs",
                                          "[IPMPlus] Tim IPM-IPG-IDG-IKG",
                                          "[KMD] Tim Kemiskinan Multidimensi", 
                                          "[ASUS] Tim Analisis Sensus", 
