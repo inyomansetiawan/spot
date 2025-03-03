@@ -142,6 +142,7 @@ with st.form("data_form"):
     bulan = st.selectbox("Periode Pelaporan (Bulan)", ["", 
                                                        "Januari", 
                                                        "Februari", 
+                                                       "Januari-Februari", 
                                                        "Maret", 
                                                        "April", 
                                                        "Mei", 
